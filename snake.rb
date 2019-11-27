@@ -36,13 +36,13 @@ class Snake
     else
       @engorged = false
     end
-    if @direction = Direction[:north]
+    if @direction == Direction[:north]
       @head = [@head[0], @head[1] + 1]
-    elsif @direction = Direction[:east]
+    elsif @direction == Direction[:east]
       @head = [@head[0] + 1, @head[1]]
-    elsif @direction = Direction[:south]
+    elsif @direction == Direction[:south]
       @head = [@head[0], @head[1] - 1]
-    elsif @direction = Direction[:west]
+    elsif @direction == Direction[:west]
       @head = [@head[0] - 1, @head[1]]
     end
   end
