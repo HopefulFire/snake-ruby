@@ -12,22 +12,30 @@ class Snake
     @head = [x, y]
     @body = [[x, y-1]]
     @direction = Direction[:north]
+    @engorged = false
+  end
+
+  #setter methods
+  def setDirection=(value)
+    @direction = value
   end
 
   #instance methods
   def getSnakeLocations
     [@head] + @body
   end
-  
-  #setter methods
-  def setDirection=(value)
-    @direction = value
+
+  def makeEngorged
+    @engorged = true
   end
 
-  #self methods
   def slither
     @body.unshift(@head)
-    @body.pop
+    if not @engorged
+      @body.pop
+    else
+      @engorged = false
+    end
     if @direction = Direction[:north]
       @head = [@head[0], @head[1] + 1]
     elsif @direction = Direction[:east]
@@ -37,7 +45,5 @@ class Snake
     elsif @direction = Direction[:west]
       @head = [@head[0] - 1, @head[1]]
     end
-    nil
   end
-  nil
 end
