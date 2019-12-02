@@ -47,3 +47,38 @@ class Snake
     end
   end
 end
+
+class Field
+  def initialize(x, y)
+    @dimensions = [x, y]
+    generate
+  end
+  
+  #instance methods
+  def generate
+    @field = []
+    @dimensions[1].times do
+      row = []
+      @dimensions[0].times do
+        row += ['[]']
+      end
+      @field += [row]
+    end
+  end
+  
+  def field
+    @field.each do
+      |row|
+      row.each do
+        |item|
+        print item
+      end
+      puts
+    end
+  end
+  
+  def update(x, y)
+    @field[y][x] = '{}'
+  end
+  
+end
