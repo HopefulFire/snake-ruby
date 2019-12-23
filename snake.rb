@@ -17,11 +17,11 @@ class Snake
   end
   
   #instance methods
-  def getSnakeLocations
+  def get_snake_locations
     [@head] + @body
   end
 
-  def makeEngorged
+  def engorge
     @engorged = true
   end
 
@@ -44,7 +44,7 @@ class Snake
   end
   
   #setter method
-  def setDirection=(value)
+  def set_direction=(value)
     @direction = value
   end
   
