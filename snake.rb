@@ -8,18 +8,14 @@ Direction =
 
 
 class Snake
+
   def initialize(x, y)
     @head = [x, y]
     @body = [[x, y-1]]
     @direction = Direction[:north]
     @engorged = false
   end
-
-  #setter methods
-  def setDirection=(value)
-    @direction = value
-  end
-
+  
   #instance methods
   def getSnakeLocations
     [@head] + @body
@@ -46,39 +42,54 @@ class Snake
       @head = [@head[0] - 1, @head[1]]
     end
   end
+  
+  #setter method
+  def setDirection=(value)
+    @direction = value
+  end
+  
 end
 
 class Field
+  
   def initialize(x, y)
-    @dimensions = [x, y]
+    @dimensions = {x: x, y: y}
     generate
   end
   
   #instance methods
+  def to_s
+    output = ""
+    @field.each do
+      |row|
+      row.each do
+        |plot|
+        output += plot
+      end
+      output += "\n"
+    end
+    output
+  end
+  
   def generate
     @field = []
-    @dimensions[1].times do
+    @dimensions[:y].times do
       row = []
-      @dimensions[0].times do
+      @dimensions[:x].times do
         row += ['[]']
       end
       @field += [row]
     end
   end
   
-  def field
-    @field.each do
-      |row|
-      row.each do
-        |item|
-        print item
-      end
-      puts
-    end
-  end
-  
+  #setter method
   def update(x, y)
     @field[y][x] = '{}'
   end
   
+  def update_array(coordinates_array)
+    coordinates_array.each do |coordinates|
+      update(coordinates[0], coordinates[1])
+    end
+  end
 end
