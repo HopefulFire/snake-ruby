@@ -48,7 +48,7 @@ class Snake
   end
   
   #setter method
-  def set_direction=(value)
+  def direction=(value)
     @direction = value
   end
   
