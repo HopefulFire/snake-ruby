@@ -59,8 +59,14 @@ class Apple
     @location = [rand(x), rand(y)]
   end
 
+  #instance method
   def to_s
     "Apple at #{@location}"
+  end
+
+  #getter method
+  def location
+    @location
   end
 
 end
@@ -97,14 +103,41 @@ class Field
     end
   end
   
-  #setter method
-  def update(x, y)
-    @field[y][x] = '{}'
+  #setter methods
+  def update(coordinates)
+    @field[coordinates[1]][coordinates[0]] = '{}'
   end
   
   def update_array(coordinates_array)
     coordinates_array.each do |coordinates|
-      update(coordinates[0], coordinates[1])
+      update(coordinates)
     end
   end
 end
+
+def run_game
+  dim_x = 10
+  dim_y = 10
+  apple = Apple.new(dim_x, dim_y)
+  apple_eaten = false
+  snake = Snake.new(4,4)
+  snake_alive = true
+  while snake_alive do
+
+    # build and print frame
+    field = Field.new(dim_x, dim_y)
+    field.update(apple.location)
+    field.update_array(snake.get_snake_locations)
+    puts field
+
+    # wait for player action
+    key_pressed = STDIN.getc
+    puts key_pressed
+
+    # update snake, apple, and field status
+    #something
+
+  end
+end
+
+run_game

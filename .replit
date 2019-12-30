@@ -1,2 +1,2 @@
 language = "ruby"
-run = "irb -r ./main.rb"
+run = "ruby ./main.rb"
