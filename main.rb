@@ -6,7 +6,6 @@ Direction =
   :west => 3
 }
 
-
 class Snake
 
   def initialize(x, y)
@@ -50,6 +49,14 @@ class Snake
   #setter method
   def direction=(value)
     @direction = value
+  end
+  
+end
+
+class Apple
+
+  def initialize(x, y)
+    @location = [rand(x), rand(y)]
   end
   
 end
