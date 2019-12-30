@@ -17,6 +17,10 @@ class Snake
   end
   
   #instance methods
+  def to_s
+    "Snake head at #{@head}\nRest of body: #{@body}"
+  end
+
   def get_snake_locations
     [@head] + @body
   end
