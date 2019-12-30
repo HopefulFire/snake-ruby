@@ -58,13 +58,17 @@ class Apple
   def initialize(x, y)
     @location = [rand(x), rand(y)]
   end
-  
+
+  def to_s
+    "Apple at #{@location}"
+  end
+
 end
 
 class Field
   
   def initialize(x, y)
-    @dimensions = {x: x, y: y}
+    @dimension = {x: x, y: y}
     generate
   end
   
@@ -84,9 +88,9 @@ class Field
   
   def generate
     @field = []
-    @dimensions[:y].times do
+    @dimension[:y].times do
       row = []
-      @dimensions[:x].times do
+      @dimension[:x].times do
         row += ['[]']
       end
       @field += [row]
