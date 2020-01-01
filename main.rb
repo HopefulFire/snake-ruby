@@ -1,3 +1,5 @@
+require 'io/console'
+require 'timeout'
 Direction =
 {
   :north => 0,
@@ -12,12 +14,20 @@ class Snake
     @head = [x, y]
     @body = [[x, y-1]]
     @direction = Direction[:north]
-    @engorged = false
+    @engorged = true
   end
   
   #instance methods
   def to_s
     "Snake head at #{@head}\nRest of body: #{@body}"
+  end
+  
+  def head
+    @head
+  end
+  
+  def body
+    @body
   end
 
   def get_snake_locations
@@ -36,11 +46,11 @@ class Snake
       @engorged = false
     end
     if @direction == Direction[:north]
-      @head = [@head[0], @head[1] + 1]
+      @head = [@head[0], @head[1] - 1]
     elsif @direction == Direction[:east]
       @head = [@head[0] + 1, @head[1]]
     elsif @direction == Direction[:south]
-      @head = [@head[0], @head[1] - 1]
+      @head = [@head[0], @head[1] + 1]
     elsif @direction == Direction[:west]
       @head = [@head[0] - 1, @head[1]]
     end
@@ -97,7 +107,7 @@ class Field
     @dimension[:y].times do
       row = []
       @dimension[:x].times do
-        row += ['[]']
+        row += ['<>']
       end
       @field += [row]
     end
@@ -116,28 +126,62 @@ class Field
 end
 
 def run_game
-  dim_x = 10
-  dim_y = 10
+  dim_x = 20
+  dim_y = 20
   apple = Apple.new(dim_x, dim_y)
   apple_eaten = false
-  snake = Snake.new(4,4)
+  snake = Snake.new(9,9)
   snake_alive = true
+  key_pressed = STDIN.getch
   while snake_alive do
 
     # build and print frame
     field = Field.new(dim_x, dim_y)
     field.update(apple.location)
     field.update_array(snake.get_snake_locations)
+    system 'clear' or system 'cls'
     puts field
 
     # wait for player action
-    key_pressed = STDIN.getc
-    puts key_pressed
+    begin
+      Timeout::timeout(0.2) do
+        key_pressed = STDIN.getch
+      end
+    rescue
+      nil
+    end
 
     # update snake, apple, and field status
-    #something
-
+    if key_pressed == 'w'
+      snake.direction = Direction[:north]
+    elsif key_pressed == 'a'
+      snake.direction = Direction[:west]
+    elsif key_pressed == 's'
+      snake.direction = Direction[:south]
+    elsif key_pressed == 'd'
+      snake.direction = Direction[:east]
+    else
+      next
+    end
+    snake.slither
+    
+    apple_eaten = apple.location == snake.head
+    if apple_eaten
+      snake.engorge
+      apple = Apple.new(dim_x, dim_y)
+    end
+    
+    if snake.head[0] > -1 and snake.head[0] < dim_x and snake.head[1] > -1 and snake.head[1] < dim_y
+      nil
+    else
+      snake_alive = false
+    end
+    
+    if snake.body.any? { |body_part| body_part == snake.head }
+      snake_alive = false
+    end
   end
+  puts 'You died'
 end
 
 run_game
